@@ -1,0 +1,18 @@
+{
+  "hero": {
+    "eyebrow": "Protecting Sri Lanka's marine future",
+    "title": "Mr Vilz",
+    "subtitle": "We are striving to protect the marine environment of Sri Lanka.",
+    "primaryAction": {
+      "label": "Be Involved",
+      "href": "#projects"
+    },
+    "secondaryAction": {
+      "label": "About Us",
+      "href": "#about"
+    },
+    "mediaType": "image",
+    "mediaUrl": "/mrvilz-logo.jpeg",
+    "mediaAlt": "Mr Vilz hero background"
+  }
+}
