@@ -1,230 +1,283 @@
-.mr-team-section {
+.team-scroll-section {
   position: relative;
   overflow: hidden;
-  padding: 88px 0 110px;
+  padding: 78px 0 96px;
   background:
-    radial-gradient(circle at top, rgba(120, 182, 104, 0.14), transparent 28%),
-    radial-gradient(circle at 18% 70%, rgba(56, 112, 79, 0.16), transparent 22%),
-    linear-gradient(180deg, #0d1712 0%, #101d17 38%, #0c1411 100%);
+    radial-gradient(circle at 50% -10%, rgba(242, 248, 255, 0.12), transparent 22%),
+    radial-gradient(circle at 14% 78%, rgba(61, 105, 161, 0.18), transparent 28%),
+    radial-gradient(circle at 84% 18%, rgba(77, 126, 188, 0.1), transparent 22%),
+    linear-gradient(180deg, #243552 0%, #1a2f4b 28%, #162846 56%, #12233f 80%, #102038 100%);
 }
 
-.mr-team-section::before {
+.team-scroll-section::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 90%);
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 92%);
   pointer-events: none;
 }
 
-.mr-team-shell {
+.team-scroll-shell {
   position: relative;
   z-index: 1;
 }
 
-.mr-team-heading {
-  max-width: 780px;
-  margin: 0 auto 42px;
+.team-scroll-heading {
+  margin-bottom: 34px;
   text-align: center;
 }
 
-.mr-team-kicker {
-  margin: 0 0 14px;
-  color: #9fd08f;
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.mr-team-heading h2 {
+.team-scroll-heading h2 {
   max-width: none;
-  font-size: clamp(3rem, 6vw, 5.4rem);
-  color: #f5fbf0;
+  color: #ffffff;
+  font-size: clamp(3rem, 6vw, 5.2rem);
 }
 
-.mr-team-intro {
-  margin: 18px 0 0;
-  color: rgba(225, 237, 220, 0.78);
-  font-size: 1.05rem;
-  line-height: 1.8;
-}
-
-.mr-team-grid {
+.team-scroll-frame {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  gap: 20px;
+  align-items: center;
 }
 
-.mr-team-card {
-  overflow: hidden;
-  border: 1px solid rgba(168, 203, 149, 0.14);
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(13, 24, 18, 0.98) 100%);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+.team-scroll-arrow {
+  width: 54px;
+  height: 54px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.team-scroll-arrow:hover {
+  transform: scale(1.08);
+}
+
+.team-scroll-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 1fr);
+  gap: 22px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.team-scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+.team-scroll-card {
+  min-width: 0;
+  scroll-snap-align: center;
+  text-align: center;
   cursor: pointer;
 }
 
-.mr-team-card-media {
-  aspect-ratio: 0.88;
+.team-scroll-photo {
   overflow: hidden;
-  background: #111b14;
+  aspect-ratio: 0.74;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.28);
 }
 
-.mr-team-card-image,
-.mr-team-detail-image {
+.team-scroll-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 220ms ease;
 }
 
-.mr-team-card-copy {
-  padding: 20px 22px 24px;
+.team-scroll-card:hover .team-scroll-photo img {
+  transform: scale(1.04);
 }
 
-.mr-team-card-copy h3,
-.mr-team-detail-copy h3 {
-  margin: 0;
+.team-scroll-card h3 {
+  margin: 16px 0 0;
   color: #ffffff;
-  font-size: 1.35rem;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
-.mr-team-card-copy p,
-.mr-team-detail-copy > p {
+.team-scroll-card p {
   margin: 10px 0 0;
-  color: rgba(233, 245, 225, 0.72);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
-.mr-team-overlay {
+.team-detail-overlay {
   position: fixed;
   inset: 0;
   z-index: 120;
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(7, 14, 10, 0.72);
-  backdrop-filter: blur(18px);
+  background: rgba(9, 16, 28, 0.72);
+  backdrop-filter: blur(14px);
 }
 
-.mr-team-overlay-backdrop {
-  width: min(1040px, 100%);
-}
-
-.mr-team-detail-card {
+.team-detail-card {
   display: grid;
-  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(300px, 0.95fr) minmax(0, 1.05fr);
+  width: min(980px, 100%);
   overflow: hidden;
-  border: 1px solid rgba(168, 203, 149, 0.16);
-  border-radius: 34px;
-  background:
-    radial-gradient(circle at top left, rgba(141, 197, 125, 0.12), transparent 28%),
-    linear-gradient(180deg, rgba(18, 31, 23, 0.98) 0%, rgba(11, 19, 15, 0.98) 100%);
-  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(24, 38, 63, 0.98) 0%, rgba(14, 24, 43, 0.98) 100%);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.38);
 }
 
-.mr-team-detail-media {
+.team-detail-media {
   min-height: 100%;
-  background: #131d17;
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.mr-team-detail-copy {
+.team-detail-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-detail-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 34px;
 }
 
-.mr-team-detail-label {
+.team-detail-label {
   margin: 0 0 12px;
-  color: #9fd08f;
-  font-size: 0.8rem;
+  color: #a6c8ff;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.mr-team-detail-bio {
-  margin-top: 18px;
-  color: rgba(234, 243, 228, 0.78);
+.team-detail-copy h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.team-detail-role {
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.team-detail-bio {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.74);
   line-height: 1.8;
 }
 
-.mr-team-focus-list {
+.team-detail-highlights {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 24px;
 }
 
-.mr-team-focus-list span {
+.team-detail-highlights span {
   padding: 10px 14px;
-  border: 1px solid rgba(168, 203, 149, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ebf6e5;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
   font-size: 0.92rem;
 }
 
-.mr-team-close {
+.team-detail-close {
   align-self: flex-start;
   margin-top: 28px;
-  min-height: 52px;
-  padding: 0 22px;
+  min-height: 50px;
+  padding: 0 20px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   color: #ffffff;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
 }
 
-.mr-team-close:hover {
-  background: rgba(255, 255, 255, 0.1);
+.team-detail-close:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 @media (max-width: 980px) {
-  .mr-team-grid {
+  .team-scroll-track {
+    grid-auto-columns: minmax(240px, 76%);
+  }
+
+  .team-detail-card {
     grid-template-columns: 1fr;
   }
 
-  .mr-team-detail-card {
-    grid-template-columns: 1fr;
-  }
-
-  .mr-team-detail-media {
+  .team-detail-media {
     max-height: 420px;
   }
 }
 
 @media (max-width: 720px) {
-  .mr-team-section {
-    padding: 70px 0 82px;
+  .team-scroll-section {
+    padding: 62px 0 74px;
   }
 
-  .mr-team-heading {
-    margin-bottom: 30px;
+  .team-scroll-heading {
+    margin-bottom: 24px;
   }
 
-  .mr-team-intro {
-    font-size: 0.98rem;
+  .team-scroll-frame {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .mr-team-card-copy {
-    padding: 18px 18px 20px;
+  .team-scroll-arrow {
+    display: none;
   }
 
-  .mr-team-overlay {
+  .team-scroll-track {
+    grid-auto-columns: 82%;
+    gap: 16px;
+  }
+
+  .team-scroll-card h3 {
+    font-size: 0.96rem;
+  }
+
+  .team-scroll-card p {
+    font-size: 0.9rem;
+  }
+
+  .team-detail-overlay {
     padding: 14px;
   }
 
-  .mr-team-detail-copy {
+  .team-detail-copy {
     padding: 22px;
+  }
+
+  .team-detail-copy h3 {
+    font-size: 1.8rem;
+  }
+
+  .team-detail-role,
+  .team-detail-bio {
+    font-size: 0.96rem;
   }
 }

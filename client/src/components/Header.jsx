@@ -1,9 +1,8 @@
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Be Involved", href: "#projects" },
-  { label: "Programs", href: "#services" },
-  { label: "Contact Us", href: "#contact" }
+  { label: "What We Do", href: "#what-we-do" },
+  { label: "Projects", href: "#projects" },
+  { label: "Our Team", href: "#team" }
 ];
 
 export default function Header() {
@@ -14,7 +13,7 @@ export default function Header() {
           <img src="/mrvilz-logo.jpeg" alt="Mr Vilz logo" />
           <div className="brand-text">
             <strong>Mr Vilz</strong>
-            <span>Marine protection initiative</span>
+            <span>social media group</span>
           </div>
         </a>
 
@@ -26,7 +25,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <a className="nav-button" href="#contact">
+        <a className="nav-button" href="#projects">
           Support Us
         </a>
       </div>

@@ -21,10 +21,10 @@ const defaultSiteContent = {
     },
     secondaryAction: {
       label: "About Us",
-      href: "#about"
+      href: "#what-we-do"
     },
     mediaType: "image",
-    mediaUrl: "/mrvilz-logo.jpeg",
+    mediaUrl: "/images/background.png",
     mediaAlt: "Mr Vilz hero background"
   }
 };

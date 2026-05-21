@@ -1,161 +1,153 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useRef, useState } from "react";
+import useScrollReveal from "../hooks/useScrollReveal";
 import "./TeamSection.css";
 
 const teamMembers = [
+  {
+    id: "nadeesha",
+    name: "Nadeesha",
+    role: "Founder & Creative Director",
+    image: "/images/nadeesha.jpeg",
+    bio: "Nadeesha leads the creative direction of MrVilz, shaping the brand voice, visual identity, and the overall storytelling direction behind the team.",
+    highlights: ["Creative direction", "Brand vision", "Campaign storytelling"]
+  },
   {
     id: "chamidu",
     name: "Chamidu",
     role: "Co-Founder & Head of Media Production",
     image: "/images/chamidu.jpeg",
-    bio: "Chamidu shapes the visual storytelling of MrVilz Nature Team, guiding media direction, campaign execution, and documentary-style content that connects people with conservation.",
-    focus: ["Field visuals", "Campaign direction", "Media production"]
-  },
-  {
-    id: "nethmin",
-    name: "Nethmin",
-    role: "Head of Creative Production",
-    image: "/images/nethmin.svg",
-    bio: "Nethmin develops creative concepts, keeps production flowing across shoots and digital content, and helps turn ideas into polished public-facing experiences.",
-    focus: ["Creative concepts", "Production planning", "Visual coordination"]
-  },
-  {
-    id: "nadeesha",
-    name: "Nadeesha",
-    role: "Founder & Creative Director",
-    image: "/images/nadeesha.svg",
-    bio: "Nadeesha leads the team vision, brand voice, and long-term direction, making sure every initiative feels intentional, credible, and rooted in nature-driven impact.",
-    focus: ["Creative leadership", "Brand vision", "Strategic direction"]
+    bio: "Chamidu drives the media production side of the team, coordinating shoots, visual execution, and content built to connect nature stories with people.",
+    highlights: ["Media production", "Field content", "Visual execution"]
   },
   {
     id: "pabodha",
     name: "Pabodha",
     role: "Head of Operations Manager & Brand Partnerships",
     image: "/images/pabodha.svg",
-    bio: "Pabodha keeps operations aligned while building partnerships that help MrVilz grow its reach, coordinate collaborations, and move projects forward with structure.",
-    focus: ["Operations", "Partnerships", "Team coordination"]
+    bio: "Pabodha manages operations and partnerships, helping the team stay organized while building strong relationships that support projects and collaborations.",
+    highlights: ["Operations", "Partnerships", "Team coordination"]
+  },
+  {
+    id: "nethmin",
+    name: "Nethmin",
+    role: "Co-Host & Head of Creative Producer",
+    image: "/images/nethmin.svg",
+    bio: "Nethmin supports the creative production process, helping turn ideas into polished outputs while keeping the energy of the team visible in every project.",
+    highlights: ["Creative production", "Hosting", "Content planning"]
   }
 ];
 
-function TeamCard({ member, onSelect }) {
-  return (
-    <motion.article
-      layoutId={`card-${member.id}`}
-      className="mr-team-card"
-      whileHover={{ scale: 1.03, y: -6 }}
-      transition={{ type: "spring", stiffness: 260, damping: 24 }}
-      onClick={() => onSelect(member)}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          onSelect(member);
-        }
-      }}
-      role="button"
-      tabIndex={0}
-    >
-      <motion.div layoutId={`image-shell-${member.id}`} className="mr-team-card-media">
-        <motion.img
-          layoutId={`image-${member.id}`}
-          src={member.image}
-          alt={member.name}
-          className="mr-team-card-image"
-        />
-      </motion.div>
-
-      <div className="mr-team-card-copy">
-        <motion.h3 layoutId={`name-${member.id}`}>{member.name}</motion.h3>
-        <motion.p layoutId={`role-${member.id}`}>{member.role}</motion.p>
-      </div>
-    </motion.article>
-  );
-}
-
 export default function TeamSection() {
+  const trackRef = useRef(null);
   const [selectedMember, setSelectedMember] = useState(null);
+  const { ref, isVisible } = useScrollReveal();
+
+  function scrollCards(direction) {
+    const track = trackRef.current;
+
+    if (!track) {
+      return;
+    }
+
+    const amount = Math.min(track.clientWidth * 0.82, 420);
+    track.scrollBy({
+      left: direction * amount,
+      behavior: "smooth"
+    });
+  }
 
   return (
-    <section className="mr-team-section" id="team">
-      <div className="container mr-team-shell">
-        <div className="mr-team-heading">
-          <p className="mr-team-kicker">MrVilz Nature Team</p>
+    <section className="team-scroll-section" id="team">
+      <div className="container team-scroll-shell">
+        <div
+          ref={ref}
+          className={`team-scroll-heading scroll-reveal ${isVisible ? "is-visible" : ""}`}
+        >
           <h2>The Team</h2>
-          <p className="mr-team-intro">
-            A creative field team blending storytelling, visual direction, and
-            production energy to shape a stronger public identity for nature-led
-            work.
-          </p>
         </div>
 
-        <div className="mr-team-grid">
-          {teamMembers.map((member) => (
-            <TeamCard key={member.id} member={member} onSelect={setSelectedMember} />
-          ))}
+        <div className={`team-scroll-frame scroll-reveal ${isVisible ? "is-visible" : ""}`}>
+          <button
+            className="team-scroll-arrow"
+            type="button"
+            aria-label="Scroll team left"
+            onClick={() => scrollCards(-1)}
+          >
+            &#8249;
+          </button>
+
+          <div className="team-scroll-track" ref={trackRef}>
+            {teamMembers.map((member) => (
+              <article
+                className="team-scroll-card"
+                key={member.id}
+                onClick={() => setSelectedMember(member)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setSelectedMember(member);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="team-scroll-photo">
+                  <img src={member.image} alt={member.name} />
+                </div>
+                <h3>{member.name}</h3>
+                <p>{member.role}</p>
+              </article>
+            ))}
+          </div>
+
+          <button
+            className="team-scroll-arrow"
+            type="button"
+            aria-label="Scroll team right"
+            onClick={() => scrollCards(1)}
+          >
+            &#8250;
+          </button>
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedMember ? (
-          <motion.div
-            className="mr-team-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedMember(null)}
+      {selectedMember ? (
+        <div
+          className="team-detail-overlay"
+          onClick={() => setSelectedMember(null)}
+          role="presentation"
+        >
+          <article
+            className="team-detail-card"
+            onClick={(event) => event.stopPropagation()}
           >
-            <motion.div
-              className="mr-team-overlay-backdrop"
-              initial={{ scale: 0.96 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.98 }}
-            >
-              <motion.article
-                layoutId={`card-${selectedMember.id}`}
-                className="mr-team-detail-card"
-                onClick={(event) => event.stopPropagation()}
+            <div className="team-detail-media">
+              <img src={selectedMember.image} alt={selectedMember.name} />
+            </div>
+
+            <div className="team-detail-copy">
+              <p className="team-detail-label">Team member</p>
+              <h3>{selectedMember.name}</h3>
+              <p className="team-detail-role">{selectedMember.role}</p>
+              <p className="team-detail-bio">{selectedMember.bio}</p>
+
+              <div className="team-detail-highlights">
+                {selectedMember.highlights.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
+
+              <button
+                className="team-detail-close"
+                type="button"
+                onClick={() => setSelectedMember(null)}
               >
-                <motion.div
-                  layoutId={`image-shell-${selectedMember.id}`}
-                  className="mr-team-detail-media"
-                >
-                  <motion.img
-                    layoutId={`image-${selectedMember.id}`}
-                    src={selectedMember.image}
-                    alt={selectedMember.name}
-                    className="mr-team-detail-image"
-                  />
-                </motion.div>
-
-                <div className="mr-team-detail-copy">
-                  <p className="mr-team-detail-label">Selected team member</p>
-                  <motion.h3 layoutId={`name-${selectedMember.id}`}>
-                    {selectedMember.name}
-                  </motion.h3>
-                  <motion.p layoutId={`role-${selectedMember.id}`}>
-                    {selectedMember.role}
-                  </motion.p>
-
-                  <p className="mr-team-detail-bio">{selectedMember.bio}</p>
-
-                  <div className="mr-team-focus-list">
-                    {selectedMember.focus.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-
-                  <button
-                    className="mr-team-close"
-                    type="button"
-                    onClick={() => setSelectedMember(null)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </motion.article>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                Close
+              </button>
+            </div>
+          </article>
+        </div>
+      ) : null}
     </section>
   );
 }

@@ -47,7 +47,7 @@ export default function HeroSection({ hero, isLoading }) {
         </div>
       </div>
 
-      <a className="hero-scroll-indicator" href="#services" aria-label="Scroll to programs">
+      <a className="hero-scroll-indicator" href="#what-we-do" aria-label="Scroll to next section">
         <span />
       </a>
     </section>
