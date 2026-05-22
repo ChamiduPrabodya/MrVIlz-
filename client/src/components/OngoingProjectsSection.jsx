@@ -1,179 +1,136 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
 
 const ongoingProjects = [
   {
     title: "Clean Panadura Beach Sri Lanka",
     progress: 46,
-    theme: "seabed",
+    image: "/images/beach.PNG",
+    visualLayout: "landscape",
     summary:
       "A coastal cleanup effort focused on reducing waste, protecting the shoreline, and building stronger community action around a cleaner beach environment.",
     highlights: ["Beach cleanup", "Volunteer action", "Coastal protection"]
   },
   {
-    title: "Plants Donation Campaign",
-    progress: 84,
-    theme: "plant",
+    title: "10,000 Plants Donation Campaign",
+    progress: 2,
     image: "/images/plant.PNG",
+    visualLayout: "portrait",
     summary:
       "A greening campaign that encourages communities to plant, nurture, and protect young trees for a healthier and cleaner future.",
     highlights: ["Plant today", "Nurture growth", "Protect nature"]
   }
 ];
 
-function OngoingProjectCard({ project, index }) {
-  const cardRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"]
-  });
-
-  const artY = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const artScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
+function OngoingProjectStep({ project, index }) {
+  const isReversed = index % 2 === 1;
+  const stepLabel = `${index + 1}`.padStart(2, "0");
+  const sequenceDelay = index * 0.8;
 
   return (
-    <motion.article
-      ref={cardRef}
-      className="ongoing-project-card"
-      initial={{
-        opacity: 0,
-        y: 90,
-        scale: 0.88,
-        filter: "blur(10px)"
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        filter: "blur(0px)"
-      }}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.18,
-        ease: [0.22, 1, 0.36, 1]
-      }}
-      viewport={{ once: true, amount: 0.25 }}
-    >
+    <article className={`ongoing-project-step ${isReversed ? "is-reversed" : ""}`}>
       <motion.div
-        className={`ongoing-project-art ongoing-project-card-${project.theme}`}
-        aria-hidden="true"
-        style={{
-          y: artY,
-          scale: artScale
-        }}
-      >
-        {project.theme === "seabed" ? (
-          <div className="project-art-seabed">
-            <motion.div
-              className="seabed-cup"
-              initial={{ rotate: -15, y: 30 }}
-              whileInView={{ rotate: 0, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            />
-            <span>Cleaner Panadura Beach Sri Lanka</span>
-          </div>
-        ) : project.theme === "plant" ? (
-          <div className="ongoing-project-image-frame">
-            <motion.img
-              className="ongoing-project-image"
-              src={project.image}
-              alt=""
-              initial={{ scale: 1.15 }}
-              whileInView={{ scale: 1 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              viewport={{ once: true }}
-            />
-          </div>
-        ) : (
-          <div className="project-art-nurdle">
-            <span className="nurdle-title">Plants Donation</span>
-            <span className="nurdle-subtitle">
-              Volunteer campaign against plastic pellets
-            </span>
-          </div>
-        )}
-
-        <motion.div
-          className="ongoing-project-titlebar"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            delay: index * 0.15 + 0.25,
-            ease: "easeOut"
-          }}
-          viewport={{ once: true }}
-        >
-          <h3>{project.title}</h3>
-        </motion.div>
-      </motion.div>
-
-      <motion.div
-        className="project-detail-panel"
-        initial={{ opacity: 0, y: 35 }}
+        className="ongoing-project-panel ongoing-project-panel-copy"
+        initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
-          duration: 0.65,
-          delay: index * 0.15 + 0.35
+          duration: 0.75,
+          delay: 0.2 + sequenceDelay,
+          ease: [0.22, 1, 0.36, 1]
         }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.25 }}
       >
+        <span className="ongoing-project-step-badge">{stepLabel}</span>
+        <h3>{project.title}</h3>
         <p>{project.summary}</p>
 
         <div className="project-detail-tags">
           {project.highlights.map((item, tagIndex) => (
             <motion.span
               key={item}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.45,
-                delay: index * 0.15 + tagIndex * 0.08 + 0.45
+                duration: 0.4,
+                delay: 0.45 + sequenceDelay + tagIndex * 0.08
               }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.25 }}
             >
               {item}
             </motion.span>
           ))}
         </div>
+
+        <motion.div
+          className="project-progress-block"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.55,
+            delay: 0.72 + sequenceDelay
+          }}
+          viewport={{ once: true, amount: 0.25 }}
+        >
+          <div className="project-progress-head">
+            <strong>Project Progress</strong>
+            <span>{project.progress}%</span>
+          </div>
+
+          <div
+            className="project-progress-track"
+            aria-label={`${project.title} project progress`}
+          >
+            <motion.span
+              className="project-progress-fill"
+              initial={{ width: "0%" }}
+              whileInView={{ width: `${project.progress}%` }}
+              transition={{
+                duration: 1.1,
+                delay: 0.9 + sequenceDelay,
+                ease: "easeOut"
+              }}
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              Complete
+            </motion.span>
+          </div>
+        </motion.div>
       </motion.div>
+
+      <div className="ongoing-project-step-axis" aria-hidden="true">
+        <motion.span
+          className="ongoing-project-step-node"
+          initial={{ scale: 0.4, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{
+            duration: 0.45,
+            delay: 0.32 + sequenceDelay,
+            ease: "easeOut"
+          }}
+          viewport={{ once: true, amount: 0.25 }}
+        />
+      </div>
 
       <motion.div
-        className="project-progress-block"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        className="ongoing-project-panel ongoing-project-panel-visual"
+        initial={{ opacity: 0, y: 60, scale: 0.94 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         transition={{
-          duration: 0.6,
-          delay: index * 0.15 + 0.55
+          duration: 0.78,
+          delay: 0.38 + sequenceDelay,
+          ease: [0.22, 1, 0.36, 1]
         }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.25 }}
       >
-        <div className="project-progress-head">
-          <strong>Project Progress</strong>
-          <span>{project.progress}%</span>
-        </div>
+        <div className={`project-visual-card project-visual-card-${project.visualLayout}`}>
+          <img
+            className={`project-visual-image project-visual-image-${project.visualLayout}`}
+            src={project.image}
+            alt={project.title}
+          />
 
-        <div
-          className="project-progress-track"
-          aria-label={`${project.title} project progress`}
-        >
-          <motion.span
-            className="project-progress-fill"
-            initial={{ width: "0%" }}
-            whileInView={{ width: `${project.progress}%` }}
-            transition={{
-              duration: 1.2,
-              delay: index * 0.15 + 0.7,
-              ease: "easeOut"
-            }}
-            viewport={{ once: true }}
-          >
-            Complete
-          </motion.span>
         </div>
       </motion.div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -191,9 +148,11 @@ export default function OngoingProjectsSection() {
           <h2>Ongoing Projects</h2>
         </motion.div>
 
-        <div className="ongoing-projects-grid">
+        <div className="ongoing-projects-timeline">
+          <div className="ongoing-projects-timeline-line" aria-hidden="true" />
+
           {ongoingProjects.map((project, index) => (
-            <OngoingProjectCard
+            <OngoingProjectStep
               key={project.title}
               project={project}
               index={index}

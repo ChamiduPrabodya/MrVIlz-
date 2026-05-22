@@ -15,14 +15,14 @@ const teamMembers = [
   {
     name: "Pabodha",
     position: "Head of Operations Manager & Brand Partnerships",
-    image: null,
-    initial: "P"
+     image: "/images/paboda.jpeg"
+    
   },
   {
-    name: "Nethmin",
+    name: "Nethmina",
     position: "Co-Host & Head of Creative Producer",
-    image: null,
-    initial: "N"
+     image: "/images/nethmina.JPG"
+    
   }
 ];
 
